@@ -30,8 +30,8 @@ library("MDRClassifier")
 ## Overview
 
 ``` r
-ls("package:<MDRClassifier>") 
-data(package = "<MDRClassifier>")
+ls("package:MDRClassifier") 
+data(package = "MDRClassifier")
 ```
 
 MDRClassifier is an R package developed to analyze and classify

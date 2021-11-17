@@ -32,8 +32,8 @@ library("MDRClassifier")
 
 ## Overview
 ```r
-ls("package:<MDRClassifier>") 
-data(package = "<MDRClassifier>")
+ls("package:MDRClassifier") 
+data(package = "MDRClassifier")
 ```
 MDRClassifier is an R package developed to analyze and classify multidrug resistance (MDR) of protein sequences. The package is targeted for bioinformatics exploring mutidrug resistance of pathogens. Three categories define by European Centre for Disease Prevention and Control: MDR, XDR, PDR, are used for classifying the mutidrug resistance level of protein sequences.MDR stands for non-susceptibility to at least one agent in three or more antimicrobial categories. XDR represents that the isolate is non-susceptibility to at least one agent in all but less than or equal to 2 antimicrobial categories. PDR means the isolate is non-susceptibility to all agents in all antimicrobial categories. The main function **classifyAllMDR** classifies the multi-drug resistance level of isolates. The function **classifyMDR** returns the multi-drug resistance level of a specific isolate given the Sample ID.  The function **MDRPlot** plots the isolates by their categories of multidrug resistances. Function **predictAMR** is available to calculate PCA value of new isolates. Function **plotPCA** is to generate dimension reduction plot for clustering and predict relationships of new isolates. For more information, see details below.
 
