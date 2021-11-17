@@ -58,7 +58,7 @@ browseVignettes("MDRClassifier")
 ```
 
 An overview of the package is illustrated below.
-![](./inst/extdata/MDRClassifier.PNG)
+![](./inst/extdata/MDRClassifier.png)
 
 ## Contributions
 
