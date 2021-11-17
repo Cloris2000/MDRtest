@@ -6,7 +6,15 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of MDRClassifier is to …
+The MDRClassifer is the tool for predicting and classifying the
+multi-drug resistance (MDR) of pathogen isolates. Three categories
+define by European Centre for Disease Prevention and Control: MDR, XDR,
+PDR, are used for classifying the MDR of isolates. It is improved since
+we compare drug resistance predicted from the previous
+antimicrobial-resistant genes against the criteria from the European
+Center for Disease Prevention and Control (ECDC) to better view the
+level of multi-drug resistance of isolates. The R version is R 4.1.1 and
+the platfrom is macOs Big Sur.
 
 ## Installation
 
@@ -14,41 +22,79 @@ You can install the released version of MDRClassifier from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("MDRClassifier")
+require("devtools")
+devtools::install_github("Cloris2000/MDRClassifier", build_vignettes = TRUE)
+library("MDRClassifier")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Overview
 
 ``` r
-library(MDRClassifier)
-## basic example code
+ls("package:<MDRClassifier>") 
+data(package = "<MDRClassifier>")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+MDRClassifier is an R package developed to analyze and classify
+multidrug resistance (MDR) of protein sequences. The package is targeted
+for bioinformatics exploring mutidrug resistance of pathogens. Three
+categories define by European Centre for Disease Prevention and Control:
+MDR, XDR, PDR, are used for classifying the mutidrug resistance level of
+protein sequences.MDR stands for non-susceptibility to at least one
+agent in three or more antimicrobial categories. XDR represents that the
+isolate is non-susceptibility to at least one agent in all but less than
+or equal to 2 antimicrobial categories. PDR means the isolate is
+non-susceptibility to all agents in all antimicrobial categories. The
+main function **classifyAllMDR** classifies the multi-drug resistance
+level of isolates. The function **classifyMDR** returns the multi-drug
+resistance level of a specific isolate given the Sample ID. The function
+**MDRPlot** plots the isolates by their categories of multidrug
+resistances. Function **predictAMR** is available to calculate PCA value
+of new isolates. Function **plotPCA** is to generate dimension reduction
+plot for clustering and predict relationships of new isolates. For more
+information, see details below.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+browseVignettes("MDRClassifier")
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
+An overview of the package is illustrated below.
+![](./inst/extdata/MDRClassifier.PNG)
 
-You can also embed plots, for example:
+## Contributions
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+The author of the package is Xiaolin Zhou. The ***MDRPlot*** function
+makes use of the ***graphic*** R package. The ***classifyMDR*** function
+uses ***hash*** package generates a hash object for storing information.
+The ***predictAMR*** and ***plotPCA*** utilize ***factoextra*** pacakge
+to do principle component analysis.
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+## References
+
+Berends, M. S., Luz, C. F., Friedrich, A. W. et al. (2021). Data sets
+for download / own use. AMR(for R).
+<https://msberends.github.io/AMR/articles/datasets.html>
+
+Kassambara, A. (2017). Principal Component Analysis in R: prcomp vs
+princomp. Articles - STHDA.
+<http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/118-principal-component-analysis-in-r-prcomp-vs-princomp/>
+
+R Core Team (2020). R: A language and environment for statistical
+computing. R Foundation for Statistical Computing, Vienna, Austria.
+<https://www.R-project.org/>
+
+BioRender. (2020). Image created by Zhou, X. Retrieved November 12,
+2021, from <https://app.biorender.com/>
+
+Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source
+Software. <https://doi.org/10.21105/joss.01686>
+
+Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis.
+Springer-Verlag New York.https://ggplot2.tidyverse.org.
+
+Wickham, H. and Bryan, J. (2019). R Packages (2nd edition). Newton,
+Massachusetts: O’Reilly Media. <https://r-pkgs.org/>
+
+## Acknowledgements
+
+This package was developed as part of an assessment for 2021 BCB410H:
+Applied Bioinformatics, University of Toronto, Toronto,CANADA.
