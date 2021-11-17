@@ -13,10 +13,12 @@
 #' @return Returns the PCA result of the new sample.
 #'
 #' @examples
-#'Example 3
-#'Using pca_data available with package
+#' # Example 3
+#' # Using pca_data available with package
 #'dim(pca_data)
-#'resultsExample3 <- predictAMR(pca_data[c(1:17), c(2,9,16)], pca_data[c(18:20), c(2,9,16)])
+#'data.active <- pca_data[c(1:17), c(2,9,16)]
+#'new.active <- pca_data[c(18:20), c(2,9,16)]
+#'resultsExample3 <- predictAMR(data.active, new.active)
 #'resultsExample3
 #'
 #' @references
@@ -34,26 +36,6 @@ predictAMR <- function(dataframe, new_data){
   data.pca <- prcomp(dataframe, scale = TRUE)
   #visualize eigenvalues
   #fivz_eig(data.pca)
-  #get eigenvalue
-  eig_val <- get_eigenvalue(data.pca)
-
-  #result for individuals
-  data_ind <-get_pca_ind(data.pca)
-  ind_coordinates <- data_ind$coord
-  ind_contribution <- data_ind$contrib
-  ind_quality_rep <- data_ind$cos2
-
-  #result for variables
-  data_var <- get_pca_var(data.pca)
-  var_coorinates <- data_var$coord
-  var_contribution <- data_var$contrib
-  var_quaility_rep <- data_var$cos2
-  #Biplot of individuals and variables
-  fviz_pca_biplot(data.pca, repel = TRUE,
-                  col.var = "#2E9FDF", # Variables color
-                  col.ind = "#696969"  # Individuals color
-                   )
-  #predict new_data
   new_ind_coord <- predict(data.pca, newdata = new_data)
   return(new_ind_coord)
 }
@@ -77,10 +59,12 @@ predictAMR <- function(dataframe, new_data){
 #' @return Returns the PCA plot.
 #'
 #' @examples
-#'Example 4
-#'Using pca_data available with package
+#' # Example 4
+#' # Using pca_data available with package
 #'dim(pca_data)
-#'resultsExample4 <- plotPCA(pca_data[c(2:10), c(2,9)], pca_data[c(11:13), c(2,9)])
+#'data.active <- pca_data[c(1:17), c(2,9,16)]
+#'new.active <- pca_data[c(18:20), c(2,9,16)]
+#'resultsExample4 <- plotPCA(data.active, new.active, "predict")
 #'resultsExample4
 #'
 #' @references
@@ -88,16 +72,38 @@ predictAMR <- function(dataframe, new_data){
 #' @export
 #' @import factoextra
 #'
-plotPCA <- function(dataframe, new_data){
+#'
+#' @references
+#'
+#' @export
+#' @import factoextra
+#'
+plotPCA <- function(dataframe, new_data, plot_type){
   #plot of active individuals
   data.pca <- prcomp(dataframe, scale = TRUE)
-   p <- fviz_pca_ind(data.pca, repel = TRUE)
+  p <- fviz_pca_ind(data.pca, repel = TRUE)
+  if (plot_type == "individual"){
+    #graph of individuals with similar profile are clustered
+    return(fviz_pca_ind(data.pca,
+                        col.ind = "cos2",
+                        gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                        repel = TRUE))
+  }
+  if (plot_type == "variables"){
+    #graph of variables with positive correlated variables point to the same
+    #direction of the plot. Vice versa.
+    return(fviz_pca_var(data.pca,
+                        col.var = "contrib",
+                        gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+                        repel = TRUE))
+  }
+  if (plot_type == "predict") {
+    # Add new supplementary individuals
+    new_ind_coord <- predictAMR(dataframe, new_data)
+    return(fviz_add(p, new_ind_coord, color = "blue"))
+  }
 
-
-     # Add new supplementary individuals
-     new_ind_coord <- predictAMR(dataframe, new_data)
-     return(fviz_add(p, new_ind_coord, color = "blue"))
-   }
+}
 
 
 #[END]

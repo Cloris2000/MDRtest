@@ -23,10 +23,12 @@ A function that predict multi-drug resistance by principle component analysis (P
 to show the new sample's in the original cluster.
 }
 \examples{
-Example 3
-Using pca_data available with package
+# Example 3
+# Using pca_data available with package
 dim(pca_data)
-resultsExample3 <- predictAMR(pca_data[c(1:17), c(2,9,16)], pca_data[c(18:20), c(2,9,16)])
+data.active <- pca_data[c(1:17), c(2,9,16)]
+new.active <- pca_data[c(18:20), c(2,9,16)]
+resultsExample3 <- predictAMR(data.active, new.active)
 resultsExample3
 
 }
