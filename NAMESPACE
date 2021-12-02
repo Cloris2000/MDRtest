@@ -2,7 +2,9 @@
 
 export(MDRPlot)
 export(classifyAllMDR)
+export(classifyAllMDRfromRSI)
 export(classifyMDR)
+export(classifyMDRfromRSI)
 export(plotPCA)
 export(predictAMR)
 import(factoextra)
