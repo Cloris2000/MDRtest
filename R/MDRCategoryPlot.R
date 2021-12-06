@@ -30,8 +30,11 @@ MDRPlot <- function(dataframe){
 
   arrangeData <- dataframe$Category[dataframe$Category != "NULL"]
   data <- table(arrangeData)
-  MDRPlot <- graphics::barplot(data, ylab = "Number of Samples", xlab = "MDR categories",
-                                 main = "Percentage of Mutidrug Resistance Categories")
+  MDRPlot <- graphics::barplot(data, ylab = "Number of Samples", xlab = "MDR Categories",
+                                 main = "Distribution of Multidrug Resistance Categories",
+                               col = "darkred")
+  number <- as.matrix(data)
+  text(MDRPlot, number+5, labels=as.character(number))
 
   return(MDRPlot)
 }

@@ -4,7 +4,7 @@
 \alias{classifyMDRfromRSI}
 \title{Classify the multi-drug resistance from RSI table}
 \usage{
-classifyMDRfromRSI(RSI_table, sample_ID)
+classifyMDRfromRSI(RSI_table, sample_ID, total_cat)
 }
 \arguments{
 \item{RSI_table}{A list with each row representing the sample ID and each column
@@ -13,6 +13,8 @@ If the isolate is resistant to the agent, 'R' is in the cell.
 Otherwise, 'S' is in the cell.}
 
 \item{sample_ID}{The string of sample ID that used for classifying multi-drug resistance.}
+
+\item{total_cat}{The integer number of total antimicrobial category of species.}
 }
 \value{
 Returns the category of the given sample's multi-drug resistance.Example 5Using RSI_table dataset available with package
@@ -20,7 +22,7 @@ Returns the category of the given sample's multi-drug resistance.Example 5Using 
 dim(RSI_table)
 colnames(RSI_table)
 resultsExample5 <- classifyMDRfromRSI(RSI_table = RSI_table,
-sample_ID = "PA1381")To obtain value from results
+sample_ID = "PA1381", total_cat = 8)To obtain value from results
 
 resultsExample5
 }
