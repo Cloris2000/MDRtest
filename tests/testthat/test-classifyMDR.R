@@ -25,7 +25,7 @@ test_that("classify sample with zero categories (NULL)",{
                              sample_ID = sample_ID,
                              antimicrobial_agents = antimicrobial_agents)
   expect_type(MDRcategory, "character")
-  expect_identical(MDRcategory, "NULL")
+  expect_identical(MDRcategory, "S")
 
 })
 
@@ -39,6 +39,6 @@ test_that("classify sample with number of categories equals to 1 or 2 (XDR)",{
                              sample_ID = sample_ID,
                              antimicrobial_agents = antimicrobial_agents)
   expect_type(MDRcategory, "character")
-  expect_identical(MDRcategory, "XDR")
+  expect_identical(MDRcategory, "S")
 
 })

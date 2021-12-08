@@ -17,17 +17,21 @@ Otherwise, 'S' is in the cell.}
 \item{total_cat}{The integer number of total antimicrobial category of species.}
 }
 \value{
-Returns the category of the given sample's multi-drug resistance.Example 5Using RSI_table dataset available with package
-
-dim(RSI_table)
-colnames(RSI_table)
-resultsExample5 <- classifyMDRfromRSI(RSI_table = RSI_table,
-sample_ID = "PA1381", total_cat = 8)To obtain value from results
-
-resultsExample5
+Returns the category of sample's multi-drug resistance.
 }
 \description{
 A function that classify the multi-drug resistance from RSI table.
+}
+\examples{
+#Example 5
+# Using RSI_table dataset available with package
+dim(RSI_table)
+colnames(RSI_table)
+resultsExample5 <- classifyMDRfromRSI(RSI_table = RSI_table,
+                               sample_ID = "PA1381", total_cat = 8)
+# To obtain value from results
+resultsExample5
+
 }
 \references{
 

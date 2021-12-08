@@ -4,7 +4,7 @@
 \alias{plotPCA}
 \title{Plot PCA.}
 \usage{
-plotPCA(dataframe, new_data, plot_type)
+plotPCA(dataframe, new_data = NULL, plot_type)
 }
 \arguments{
 \item{dataframe}{A dataframe with rownames representing the sample ID and each column
@@ -32,7 +32,7 @@ A function that generate PCA and dimension reduction plots.
 dim(pca_data)
 data.active <- pca_data[c(1:17), c(2,9,16)]
 new.active <- pca_data[c(18:20), c(2,9,16)]
-resultsExample4 <- plotPCA(data.active, new.active, "predict")
+resultsExample4 <- plotPCA(data.active, new.active, "Predict")
 resultsExample4
 
 }

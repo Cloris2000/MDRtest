@@ -64,7 +64,7 @@ predictAMR <- function(dataframe, new_data){
 #'dim(pca_data)
 #'data.active <- pca_data[c(1:17), c(2,9,16)]
 #'new.active <- pca_data[c(18:20), c(2,9,16)]
-#'resultsExample4 <- plotPCA(data.active, new.active, "predict")
+#'resultsExample4 <- plotPCA(data.active, new.active, "Predict")
 #'resultsExample4
 #'
 #' @references
@@ -78,7 +78,7 @@ predictAMR <- function(dataframe, new_data){
 #' @export
 #' @import factoextra
 #'
-plotPCA <- function(dataframe, new_data, plot_type){
+plotPCA <- function(dataframe, new_data=NULL, plot_type){
   #plot of active individuals
   data.pca <- prcomp(dataframe, scale = TRUE)
   p <- fviz_pca_ind(data.pca, repel = TRUE)
@@ -97,7 +97,7 @@ plotPCA <- function(dataframe, new_data, plot_type){
                         gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
                         repel = TRUE))
   }
-  if (plot_type == "predict") {
+  if (plot_type == "predict" && (!is.null(new_data))) {
     # Add new supplementary individuals
     new_ind_coord <- predictAMR(dataframe, new_data)
     return(fviz_add(p, new_ind_coord, color = "blue"))

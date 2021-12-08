@@ -29,6 +29,12 @@ devtools::install_github("Cloris2000/MDRClassifier", build_vignettes = TRUE)
 library("MDRClassifier")
 ```
 
+To run the Shiny app:
+
+``` r
+runMDRClassifier()
+```
+
 ## Overview
 
 ``` r

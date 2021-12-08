@@ -14,7 +14,8 @@ RoxygenNote: 7.1.2
 Depends: R (>= 3.1.0)
 Imports:
   factoextra,
-  hash
+  hash,
+  shiny
 Suggests: 
     rmarkdown,
     knitr,

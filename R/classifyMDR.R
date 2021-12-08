@@ -73,11 +73,11 @@ classifyMDR <- function(drug_resistance, sample_ID, antimicrobial_agents){
     if(count_category >= 3){
       result <- 'MDR'
     }
-    else if (1 <= count_category & count_category <= 2){
+    else if (15 <= count_category & count_category <= 17){
       result <- 'XDR'
     }
     else if (count_category == 17) {result <- 'PDR'}
-    else{result <- 'NULL'} #No antimicrobial agent tested
+    else{result <- 'S'} #No antimicrobial agent tested
   }
   else{stop("The data type of antimicrobial agents are not string.")}
 
@@ -105,7 +105,7 @@ classifyMDR <- function(drug_resistance, sample_ID, antimicrobial_agents){
 #' dim(DrugResistance)
 #'
 #' #classify the category of all samples' multi-drug resistance
-#' resultsExample2 <- classifyAllMDR(drug_resistance = DrugResistance,
+#' resultsExample2 <- classifyAllMDR(drug_resistance = DrugResistance[1:100,],
 #'                                antimicrobial_agents = 'Antimicrobial.Agent')
 #' # To obtain value from results
 #' resultsExample2
@@ -114,8 +114,8 @@ classifyMDR <- function(drug_resistance, sample_ID, antimicrobial_agents){
 #'
 #' @export
 classifyAllMDR <- function(drug_resistance, antimicrobial_agents){
-  Sample_ID <- ""
-  Category <- ""
+  Sample_ID <- c()
+  Category <- c()
   #print(rownames(drug_resistance))
   for (sample in rownames(drug_resistance)){
     #print(sample)
@@ -145,11 +145,10 @@ classifyAllMDR <- function(drug_resistance, antimicrobial_agents){
 #'
 #' @param total_cat The integer number of total antimicrobial category of species.
 #'
+#' @return Returns the category of sample's multi-drug resistance.
 #'
-#' @return Returns the category of the given sample's multi-drug resistance.
-#'
-#'
-#' # Example 5
+#' @examples
+#' #Example 5
 #' # Using RSI_table dataset available with package
 #' dim(RSI_table)
 #' colnames(RSI_table)
@@ -191,7 +190,7 @@ classifyMDRfromRSI <- function(RSI_table, sample_ID, total_cat){
      if(count_category >= 3){
         result <- 'MDR'
       }
-      else if (3 < count_category & count_category <= total_cat-2){
+      else if (total_cat-2 < count_category & count_category < total_cat){
         result <- 'XDR'
       }
       else if (count_category == total_cat) {result <- 'PDR'}

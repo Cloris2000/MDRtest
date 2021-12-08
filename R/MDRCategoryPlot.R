@@ -32,7 +32,7 @@ MDRPlot <- function(dataframe){
   data <- table(arrangeData)
   MDRPlot <- graphics::barplot(data, ylab = "Number of Samples", xlab = "MDR Categories",
                                  main = "Distribution of Multidrug Resistance Categories",
-                               col = "darkred")
+                               col = "#a1e9f0")
   number <- as.matrix(data)
   text(MDRPlot, number+5, labels=as.character(number))
 

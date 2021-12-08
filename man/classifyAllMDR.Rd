@@ -27,7 +27,7 @@ given the all drug resistances information from RGI prediction.
 dim(DrugResistance)
 
 #classify the category of all samples' multi-drug resistance
-resultsExample2 <- classifyAllMDR(drug_resistance = DrugResistance,
+resultsExample2 <- classifyAllMDR(drug_resistance = DrugResistance[1:100,],
                                antimicrobial_agents = 'Antimicrobial.Agent')
 # To obtain value from results
 resultsExample2
