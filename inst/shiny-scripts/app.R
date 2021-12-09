@@ -3,8 +3,8 @@ library(shinythemes)
 
 ui <- fluidPage(theme = shinytheme("cerulean"),
   # App title
-  titlePanel("MDRClassifier: A tool for analyzing and classifying multidrug
-              resistance (MDR) of bactria"),
+  titlePanel("MDRClassifier: A tool for analyzing and classifying multi-drug
+              resistance"),
     navbarPage("Let's get started",
       tabPanel(icon("home"),
 
@@ -74,6 +74,33 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
         )
       ),
     tabPanel("Help",
+             fluidRow(column(width=2),
+                      column(
+                        h4(p("Analysis Guide",style="color:black;text-align:center")),
+                        width=8,style="background-color:lavender;border-radius: 10px")),
+             br(),
+             fluidRow(column(width=2,icon("hand-point-right","fa-5x"),align="center"),
+                      column(width=10,
+                        p("There are five tab in for analysis multi-drug resistance in this shiny app.",style="color:black;text-align:justify"),
+                        br(),
+                        p("Single Isolate: The user should input Sample_ID of a specific isolate and the column name of antimicrobial agents in the data provided.
+                          The output is the classification of this specific isolate and the barplot of the distribution of MDR categories in this data.",style="color:black;text-align:justify"),
+                        br(),
+                        p("Whole Isolte: The user should input the column name of antimicrobial agents in data provided. The output shows the distribution of MDR categories in this data.",style="color:black;text-align:justify"),
+                        br(),
+                        p("Single Isolate from RSI: The user should input the Sample_ID of a specific isolate, choose the criteria for classification (if not all antimicrobial agents are tested, use re-defined criteria),
+                          enter the total number of antimicrobial categories in ECDC criteria for this species.",
+                          style="color:black;text-align:justify"),
+                        br(),
+                        p("Whole Isolates from RSI: The user should choose the criteria for classification (if not all antimicrobial agents are tested, use re-defined criteria) and
+                          enter the total number of antimicrobial categories in ECDC criteria for this species.",style="color:black;text-align:justify"),
+                        br(),
+                        p("PCA Analysis: The user should choose the type of plot of the output. For individual PCA plot,
+                         using individual tab. For visualizing relationship between variables, using
+                         variables tab. For predict new data and its relationship with old data, using
+                         predict tab.",style="color:black;text-align:justify"),
+                        ),
+             br(),)
 
 
     )
