@@ -1,4 +1,3 @@
-context("MDRPlot")
 library(MDRClassifier)
 
 test_that("running correctly", {
@@ -11,7 +10,7 @@ test_that("running correctly", {
   expect_length(result, 3)
 })
 
-context("Checking for invalid user input")
+
 test_that("error with invalid user input", {
 
 

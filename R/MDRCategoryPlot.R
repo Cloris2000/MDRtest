@@ -12,8 +12,8 @@
 #' @examples
 #' # Examples 1:
 #' # plot the percentage
-#' x <- data.frame(Sample_ID = c("1","2","3","4","5","6"),
-#'                 Category = c("MDR", "PDR", "NULL", "XDR", "PDR", "NULL"))
+#' x <- classifyAllMDR(drug_resistance = DrugResistance[1:100,],
+#'                                antimicrobial_agents = 'Antimicrobial.Agent')
 #' MDRPlot(x)
 #'
 #'

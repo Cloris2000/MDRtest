@@ -1,4 +1,3 @@
-context("predictAMR")
 library(MDRClassifier)
 
 test_that("precit the pca of samples for the sample at row 18 of PC1",{

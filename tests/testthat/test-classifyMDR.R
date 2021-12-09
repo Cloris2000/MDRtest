@@ -1,4 +1,3 @@
-context("classifyMDR")
 library(MDRClassifier)
 
 test_that("classify sample with more than or equal to three categories (MDR)",{
