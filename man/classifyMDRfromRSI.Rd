@@ -28,7 +28,7 @@ A function that classify the multi-drug resistance from RSI table.
 dim(RSI_table)
 colnames(RSI_table)
 resultsExample5 <- classifyMDRfromRSI(RSI_table = RSI_table,
-                               sample_ID = "PA1381", total_cat = 8)
+                               sample_ID = "PA1387", total_cat = 8)
 # To obtain value from results
 resultsExample5
 

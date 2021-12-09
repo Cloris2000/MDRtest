@@ -9,9 +9,10 @@ A matrix with columns:
 \describe{
 \item{Identification number}{The ID of each patient}
 \item{Specimen number}{The ID of the specimen}
-\item{Country}{The country of origin}
 ...
+\item{Country}{The country of origin}
 \item{AMP_ND10:CIP_EE}{Different antibiotics.}
+}
 }
 \source{
 AMR(for R) package on Github

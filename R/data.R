@@ -35,13 +35,34 @@
 #' \describe{
 #'  \item{Identification number}{The ID of each patient}
 #'  \item{Specimen number}{The ID of the specimen}
-#'  \item{Country}{The country of origin}
 #'  ...
+#'  \item{Country}{The country of origin}
 #'  \item{AMP_ND10:CIP_EE}{Different antibiotics.}
+#'  }
 #' @examples
 #' \dontrun{
 #'  pca_data
 #' }
 "pca_data"
+
+#' Intensity of Antibiotic Resistance for Pseudomonas Aeruginosa From
+#' RSI Experiment.
+#'
+#' The experiment identifying the intensity of antibiotic resistance of Pseudomonas Aeruginosa conducted in 2020.
+#'
+#' @source PHAC’s National Microbiology Laboratory (NML)
+#'         https://www.canada.ca/en/public-health/programs/national-microbiology-laboratory.html
+#'
+#' @format A matrix with columns:
+#' \describe{
+#'  \item{AMK}{Whether the isolate is susceptable to amikacin}
+#'  ...
+#'  \item{TZP}{Whether the isolate is susceptable to tazobactam}
+#' }
+#' @examples
+#' \dontrun{
+#'  RSI_table
+#' }
+"RSI_table"
 
 # [END] written by Xiaolin Zhou

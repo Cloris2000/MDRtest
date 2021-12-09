@@ -132,13 +132,13 @@ server <- function(input, output) {
       p <- MDRClassifier::MDRPlot(df)
       }
     else if(input$sampleType == 'Single Isolate from RSI') {
-      category <- MDRClassifier::classifyMDRfromRSI(RSIdata(), input$sampleRSI, input$totalCat)
-      df <- MDRClassifier::classifyAllMDRfromRSI(RSIdata(),input$totalCat)
+      category <- MDRClassifier::classifyMDRfromRSI(RSIdata(), input$sampleRSI, as.numeric(input$totalCat))
+      df <- MDRClassifier::classifyAllMDRfromRSI(RSIdata(),as.numeric(input$totalCat))
       p <- MDRClassifier::MDRPlot(df)
       mtext(paste(input$sampleRSI, category, sep=" "), side = 3, line = 0, outer = FALSE)
     }
     else if(input$sampleType == 'Whole Isolates from RSI'){
-      df <- MDRClassifier::classifyAllMDRfromRSI(RSIdata(),input$totalCat)
+      df <- MDRClassifier::classifyAllMDRfromRSI(RSIdata(),as.numeric(input$totalCat))
       p <- MDRClassifier::MDRPlot(df)
     }
     else if(input$sampleType == 'PCA Analysis'){
