@@ -29,8 +29,7 @@ Otherwise, we use more specific criteria by subdividing ECDC criteria to generat
 }
 \examples{
 # Example 6
-# Using DrugResistance dataset available with package
-
+# Using RSI_table dataset available with package
 #classify the category of all samples' multi-drug resistance
 resultsExample6 <- classifyAllMDRfromRSI(RSI_table = RSI_table, total_cat = 8)
 # To obtain value from results

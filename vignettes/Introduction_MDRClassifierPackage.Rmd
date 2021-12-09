@@ -30,7 +30,8 @@ set.seed(1) # for exact reproducibility
 
 ## Introduction
 
-`MDRClassifier` is an R package developed to analyze and classify multidrug resistance (MDR) of protein sequences. The package is targeted for bioinformatics exploring mutidrug resistance of species. Three categories define by European Centre for Disease Prevention and Control: MDR, XDR, PDR, are used for classifying the MDR of protein sequences. The main function __*classifyAllMDR*__ classify the multi-drug resistance level of isolates. The function __*classifyMDR*__ classify the multi-drug resistance level of specific isolate given the Sample ID.  The function __*MDRPlot*__ (under construction) plot the isolates by their categories of multidrug resistances. Function __*MDRClassifierGenerator*__ (under construction) is available to generate simlulation data.  For more information, see details below. **This document gives a tour of MDRClassifer (version 0.1.0)**. It was written in R Markdown, using the [knitr](https://cran.r-project.org/package=knitr) package for production. See `help(package = "MDRClassifier")` for further details. 
+`MDRClassifier` is an R package developed to analyze and classify multidrug resistance (MDR) of protein sequences. The package is targeted for bioinformatics exploring mutidrug resistance of species. Three categories define by European Centre for Disease Prevention and Control: MDR, XDR, PDR, are used for classifying the MDR of protein sequences. The main function __*classifyAllMDR*__ classify the multi-drug resistance level of isolates. The function __*classifyMDR*__ classify the multi-drug resistance level of specific isolate given the Sample ID.  The function __*MDRPlot*__ (under construction) plot the isolates by their categories of multidrug resistances. Function __*classifyMDRfromRSI**__ generates the MDR category of specific sample from RSI table, which is commonly used in antibiotic resistance analysis. Function __**classifyallMDRfromRSI**__
+produces a dataframe with sample ID and their corresponding MDR categories from RSI table. For more information, see details below. **This document gives a tour of MDRClassifer (version 0.1.0)**. It was written in R Markdown, using the [knitr](https://cran.r-project.org/package=knitr) package for production. See `help(package = "MDRClassifier")` for further details. 
 
 See `help(package = "MDRClassifier")` for further details and references provided by `citation("MDRClassifier")`.To download **MDRClassifier**, use the following commands:
 
@@ -53,12 +54,14 @@ data(package = "MDRClassifier")
 
 
 ## Available Datasets
-There are two datasets and five functions in this package.
+There are three datasets and seven functions in this package.
 <br>
 __1. DrugResistance__ is the dataset for classifying multi-drug resistance category.
 There are 117,967 rows and 4 columns in total. Each row represents the sample ID of isolates. Columns are predicted antibiotic resistance genes, Drug class, Antimicrobial agents, and resistance mechanism from RGI package.
 <br>
 __2. pca_data__ is the dataset for Principle Component Analysis (PCA) to cluster the samples and predict antimicrobial resistance. There are 500 rows and 53 columns. Each row represents one sample, and each column stands for one feature of clinical trails.
+<br>
+__3. RSI_table__ is the dataset for classifying multi-drug resistance category from the table describing the intensity of antibiotic resistance. Susceptible, Intermediate, and Resistant are three categories for minimum inhibition concentration test.
 <br>
 
 ## Available Functions
@@ -113,15 +116,35 @@ MDRClassifier::MDRPlot(x)
 
 __4.predictAMR__
 This function calculates new samples's PCA value.
-#' to show the new sample's in the original cluster
-#Using pca_data available with package
 ```r
-pca_value <- MDRClassifier::predictAMR(pca_data[c(1:17), c(2,9,16)], pca_data[c(18:20),        c(2,9,16)])
+#Using pca_data available with package
+pca_value <- MDRClassifier::predictAMR(pca_data[c(1:17), c(2,9,16)], pca_data[c(18:20),c(2,9,16)])
 #to get result
 pca_value
 ```
+__5.classifyMDRfromRSI__ 
+This function generates the MDR category of specific sample from RSI table, which is commonly used in antibiotic resistance analysis.
+```r
+ #Using RSI_table dataset available with package
+ #require("MDRClassifier")
+ category <- classifyMDRfromRSI(RSI_table = RSI_table,
+                                sample_ID = "PA1381", total_cat = 8)
+ # To obtain value from results
+ category
+ ```
 
-__5.plotPCA__
+__6.classifyallMDRfromRSI__
+This function produces a dataframe with sample ID and their corresponding MDR categories from RSI table.
+```r
+ #require("MDRClassifier")
+ # Using RSI_table dataset available with package
+ #classify the category of all samples' multi-drug resistance
+ df <- classifyAllMDRfromRSI(RSI_table = RSI_table, total_cat = 8)
+ # To obtain value from results
+ df
+ ```
+
+__7.plotPCA__
 This function cluster and predicts multi-drug resistance by principle component analysis (PCA) to show the new sample's in the original cluster.
 ```r
 #Using pca_data available with package
