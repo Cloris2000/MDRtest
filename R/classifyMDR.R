@@ -196,7 +196,7 @@ classifyMDRfromRSI <- function(RSI_table, sample_ID, total_cat){
       else if (count_category == total_cat) {result <- 'PDR'}
       else{result <- 'S'} #Susceptible to all antimicrobial agents
    }
-   else if(count_max < total_cat){ #partial mode
+   else if(count_max < total_cat-2){ #partial mode
      if(1 <= count_category &&  count_category < 3){
        result <- 'R'
      }
