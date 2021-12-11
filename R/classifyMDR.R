@@ -190,7 +190,7 @@ classifyMDRfromRSI <- function(RSI_table, sample_ID, total_cat){
      if(count_category >= 3){
         result <- 'MDR'
       }
-      else if (total_cat-2 < count_category & count_category < total_cat){
+      else if (total_cat-2 < count_category){
         result <- 'XDR'
       }
       else if (count_category == total_cat) {result <- 'PDR'}
