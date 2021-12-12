@@ -145,6 +145,16 @@ classifyAllMDR <- function(drug_resistance, antimicrobial_agents){
 #'
 #' @param total_cat The integer number of total antimicrobial category of species.
 #'
+#' @param mode If the use want to classify "MDR" and "Not MDR", choose "loose".
+#'             If the number of antimicrobial categories tested are more than
+#'             number of total antimicrobial categories for this species minus 2,
+#'             the user can choose "strict" mode or "perfect" mode. Otherwise,
+#'             mode might be meaningless since no XDR would be classified, the user
+#'             should use "perfect" mode to classify MDR levels more finesorted.
+#'             Stric and Loose mode follows the criteria set by ECDC,
+#'             while Specific mode subdivide the MDR categories
+#'             into more specific sub-catgories.
+#'
 #' @return Returns the category of sample's multi-drug resistance.
 #'
 #' @examples
@@ -153,15 +163,17 @@ classifyAllMDR <- function(drug_resistance, antimicrobial_agents){
 #' dim(RSI_table)
 #' colnames(RSI_table)
 #' resultsExample5 <- classifyMDRfromRSI(RSI_table = RSI_table,
-#'                                sample_ID = "PA1387", total_cat = 8)
+#'                                sample_ID = "PA1387", total_cat = 8, mode="perfect")
 #' # To obtain value from results
 #' resultsExample5
+#'
+#'
 #'
 #' @references
 #'
 #' @export
 #' @import hash
-classifyMDRfromRSI <- function(RSI_table, sample_ID, total_cat){
+classifyMDRfromRSI <- function(RSI_table, sample_ID, total_cat, mode="loose"){
 
   #construct a hash for MDR reference
   abb_table <- hash()
@@ -174,44 +186,58 @@ classifyMDRfromRSI <- function(RSI_table, sample_ID, total_cat){
   abb_table[['Antipseudomonal penicillins + b-lactamase inhibitors']] <- list(a='TCC', b='TZP')
   abb_table[['Phosphonic acids']] <- list('FOS')
 
-   count_category <- countCategory(RSI_table, sample_ID)
-   count_max = 0
-   lst <- list()
-   for (agent in colnames(RSI_table)){
-     for (key in keys(abb_table)){
-       if ((agent %in% values(abb_table, keys=key)) & !(key %in% lst)){
-         lst <- c(lst, key)
-         count_max = count_max + 1
-       }
-     }
-   }
-    #print(count_category)
-   if(count_max ==  total_cat){ #complete mode
-     if(count_category >= 3){
-        result <- 'MDR'
+  count_category <- countCategory(RSI_table, sample_ID)
+  count_max = 0
+  lst <- list()
+  for (agent in colnames(RSI_table)){
+    for (key in keys(abb_table)){
+      if ((agent %in% values(abb_table, keys=key)) & !(key %in% lst)){
+        lst <- c(lst, key)
+        count_max = count_max + 1
       }
-      else if (total_cat-2 < count_category){
-        result <- 'XDR'
-      }
-      else if (count_category == total_cat) {result <- 'PDR'}
-      else{result <- 'S'} #Susceptible to all antimicrobial agents
-   }
-   else if(count_max < total_cat-2){ #partial mode
-     if(1 <= count_category &&  count_category < 3){
-       result <- 'R'
-     }
-     else if(3 == count_category){
-       result <- 'MDR'
-     }
-     else if (3 < count_category & count_category < count_max){
-       result <- paste('MDR',as.character(count_category-3), sep='')
-     }
-     else if (count_category == count_max) {result <- 'PDR'} #A candidate for real PDR
-     else{result <- 'S'} #Susceptible to all antimicrobial agents
-   }
-   else # (count_max > total_cat)
-     {stop("The total number of antimicrobial categoties from ECDC criteria is not correct.")}
+    }
+  }
 
+  #Check the input
+  if (total_cat < 3 ){stop("The number of antimicrobial agents tested is too few to do a classification.")}
+  if (total_cat < count_max) {stop("The total number of antimicrobial category is invalid in ECDC criteria.")}
+  # Loose mode for classifying "MDR" or "Not MDR"
+  #print(count_max)
+  if (mode == "loose"){#base level
+    if(count_category >= 3){
+       result <- 'MDR'}
+    else{result <- 'Not MDR'} #Resistant to less than 3 antimicrobial categories.
+  }
+
+
+  #Strict mode for classifying "XDR" and "PDR" from "MDR" isolates
+  else if(mode=="strict" ){ # level1
+    if(count_category >= 3 && count_category < total_cat-2){
+      result <- 'MDR'}
+    else if ((total_cat-2 < count_category || count_category == total_cat-2 ) && count_category < total_cat){
+      result <- 'XDR'
+    }
+    else if (count_category == total_cat) {result <- 'PDR'}
+    else{result <- 'Not MDR'} #Resistant to less than 3 antimicrobial categories.
+  }
+
+  #Perfect mode for classifying sub-categories in "XDR" isolates
+  if(mode == "perfect"){ #level2
+    if(1 <= count_category &&  count_category < 3){
+      result <- 'R'
+    }
+    else if(3 == count_category){
+      result <- 'MDR'
+    }
+    else if (3 < count_category & count_category < total_cat-2){
+      result <- paste('MDR',as.character(count_category-3), sep='')
+    }
+    else if(count_category >= total_cat - 2){
+      result <- 'XDR'
+    }
+    else if (count_category == total_cat) {result <- 'PDR'} #A candidate for real PDR
+    else{result <- 'S'} #Susceptible to all antimicrobial agents
+  }
 
   return(result)
 }
@@ -270,10 +296,13 @@ countCategory <- function(RSI_table, sample_ID){
 #'                        drugs that the sample resistant.
 #'
 #' @param total_cat The integer number of total antimicrobial category of species.
-
-#'             mode is set to "complete" by default.
-#'             If all antimicrobial agents are tested and given,then use "complete" mode.
-#'             Otherwise, use "partial" mode to generate reasonable MDR categories.
+#'
+#'@param mode if the number of antimicrobial categories tested are more than
+#'             number of total antimicrobial categories for this species minus 2.
+#'             The user can choose "ECDC" mode or "Specific" mode. Otherwise, "Specific"
+#'             mode is used. ECDC mode follows the criteria set by ECDC,
+#'             while Specific mode subdivide the MDR categories
+#'             into more specific sub-catgories.
 #'
 #' @return Returns a dataframe with each row name representing the sample ID and its
 #'         column representing the MDR category.
@@ -282,21 +311,32 @@ countCategory <- function(RSI_table, sample_ID){
 #' # Example 6
 #' # Using RSI_table dataset available with package
 #' #classify the category of all samples' multi-drug resistance
-#' resultsExample6 <- classifyAllMDRfromRSI(RSI_table = RSI_table, total_cat = 8)
+#' resultsExample6 <- classifyAllMDRfromRSI(RSI_table = RSI_table, total_cat = 8, mode="loose")
 #' # To obtain value from results
 #' resultsExample6
+#'
+#' resultsExample7 <- classifyAllMDRfromRSI(RSI_table = RSI_table, total_cat = 8, mode="strict")
+#' # To obtain value from results
+#' resultsExample7
+#'
+#'
+#'  resultsExample8 <- classifyAllMDRfromRSI(RSI_table = RSI_table, total_cat = 8, mode="perfect")
+#' # To obtain value from results
+#' resultsExample8
+#'
+#'
 #'
 #' @references
 #'
 #' @export
-classifyAllMDRfromRSI <- function(RSI_table, total_cat){
+classifyAllMDRfromRSI <- function(RSI_table, total_cat, mode="loose"){
   #print(rownames(drug_resistance))
   Sample_ID <- c()
   Category <- c()
   for (sample in rownames(RSI_table)){
     #print(sample)
     Sample_ID <- c(Sample_ID, sample)
-    category <- classifyMDRfromRSI(RSI_table, sample, total_cat)
+    category <- classifyMDRfromRSI(RSI_table, sample, total_cat, mode)
     Category <- c(Category, category)
 
     #result[[sample]] <- category
@@ -312,5 +352,3 @@ classifyAllMDRfromRSI <- function(RSI_table, total_cat){
 #devtools::load_all()
 #devtools::document()
 #devtools::check()
-
-

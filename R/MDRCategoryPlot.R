@@ -30,9 +30,11 @@ MDRPlot <- function(dataframe){
 
   arrangeData <- dataframe$Category[dataframe$Category != "NULL"]
   data <- table(arrangeData)
+  data$Category <- factor(data$Category,levels = c("Not MDR", "MDR", "XDR"))
   MDRPlot <- graphics::barplot(data, ylab = "Number of Samples", xlab = "MDR Categories",
                                  main = "Distribution of Multidrug Resistance Categories",
-                               col = "#a1e9f0")
+                               col = "#a1e9f0", ylim=c(0,500))
+  data$Category <- factor(data$Category,levels = c("Not MDR", "MDR", "XDR"))
   number <- as.matrix(data)
   text(MDRPlot, number+5, labels=as.character(number))
 
